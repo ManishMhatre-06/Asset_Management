@@ -1,0 +1,56 @@
+.body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+/* HEADER */
+nav .dropbtn {
+    border: none;
+    cursor: pointer;
+}
+
+
+/* LOGIN PAGE */
+.form-container {
+    display: block;
+}
+
+/* DASHBOARD */
+/* Flexible Grid Container */
+.grid-container {
+    display: flex; /* Initially hidden, will be displayed when needed */
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Consistent Box Styling */
+.grid-box {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    
+    /* Ensures all boxes have a consistent minimum height */
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Subtle hover effect for interactivity */
+.grid-box:hover {
+    cursor: pointer;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
