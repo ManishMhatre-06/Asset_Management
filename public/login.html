@@ -4,20 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style.css">
-    <title>Asset Management</title>
+    <title>Asset Management Login</title>
 </head>
 <body>
     <!-- <div class="header" id="header"></div> -->
 
+    <div class="login-wrapper">
     <div class="form-container">
+        <img src="/public/assets/icons/asset_data_management_logo.svg" alt="Logo" class="logo">
         <h1>Welcome to Asset Management</h1>
         <p>Manage your assets efficiently and effectively.</p>
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQRi-8aGppW8PIbNHNZ_oVeh0kv9wbUKvbn665WVveeDw&s=10" alt="Logo" width="200">
+        
         <form id="userForm" action="/login" method="post">
-            Username: <input type="text" id="Username" name="Username"><br>
-            Password: <input type="password" id="Password" name="Password"><br>
-            <input type="submit" value="Login">
+            <div class="form-group">
+                <label for="Username">Username</label>
+                <input type="text" id="Username" name="Username" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="Password">Password</label>
+                <input type="password" id="Password" name="Password" required>
+            </div>
+            
+            <button type="submit" class="submit-btn">Login</button>
         </form>
+    </div>
     </div>
 
     <div class="footer" id="footer"></div>

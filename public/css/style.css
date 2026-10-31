@@ -1,20 +1,167 @@
-.body {
+body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
 }
 
-/* HEADER */
-nav .dropbtn {
-    border: none;
-    cursor: pointer;
+/* NAVBAR LAYOUT */
+.navbar {
+    background-color: #77eeff;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
 }
 
+/* NAVBAR LINKS & BUTTONS */
+.navbar a.nav-link,
+.dropdown .dropbtn {
+    background-color: inherit;
+    color: black;
+    padding: 14px 20px;
+    font-size: 16px;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-/* LOGIN PAGE */
-.form-container {
+.navbar a.nav-link:hover,
+.dropdown:hover .dropbtn {
+    background-color: #555;
+}
+
+/* DROPDOWN CONTAINER */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* HIDE DROPDOWN CONTENT BY DEFAULT */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #ffffff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.dropdown-content a {
+    color: #333333;
+    padding: 12px 16px;
+    text-decoration: none;
     display: block;
+    font-size: 14px;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+/* SHOW DROPDOWN ON HOVER */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* ARROW ICON & ROTATION */
+.arrow-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+/* Rotate arrow 90 degrees clockwise on hover (or active click) */
+.dropdown:hover .arrow-icon,
+.dropdown:focus-within .arrow-icon {
+    transform: rotate(90deg);
+}
+
+/* LOGIN CARD CONTAINER */
+.form-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+/* LOGO STYLING */
+.form-container .logo {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+    object-fit: contain;
+}
+
+/* HEADINGS & TEXT */
+.form-container h1 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.form-container p {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+}
+
+/* FORM GROUP & INPUTS */
+.form-group {
+    margin-bottom: 16px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 13px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    box-sizing: border-box;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus {
+    border-color: #333;
+    outline: none;
+}
+
+/* SUBMIT BUTTON */
+.submit-btn {
+    width: 100%;
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px;
+}
+
+.submit-btn:hover {
+    background-color: #555;
 }
 
 /* DASHBOARD */
