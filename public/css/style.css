@@ -83,6 +83,13 @@ body {
 }
 
 /* LOGIN CARD CONTAINER */
+.login-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
 .form-container {
     background: #ffffff;
     padding: 40px;

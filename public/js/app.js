@@ -21,8 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
                   <td>${asset.AssetID}</td>
                   <td>${formattedDate}</td>
                   <td>${asset.Manufacturer || 'N/A'}</td>
+                  <td>${asset.ModelName || 'N/A'}</td>
                   <td>${asset.SrNumber || 'N/A'}</td>
                   <td>${asset.EmployeeName || 'Unassigned'}</td>
+                  <td><button class="edit-btn" data-asset-id="${asset.AssetID}">Edit</button></td>
+                  <td><button class="delete-btn" data-asset-id="${asset.AssetID}">Delete</button></td>
                 `;
                 tbody.appendChild(row);
               });
