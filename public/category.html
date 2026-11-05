@@ -4,23 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/public/css/style.css">
-    <title>Device - <i>DeviceName</i></title>
+    <title>Asset Management - Category</title>
 </head>
 <body>
     <div class="header" id="header"></div>
 
     <div class="category-container">
+        <h2><u id="categoryHeading">Category Name</u></h2>
+
         <table>
             <thead>
                 <tr>
-                    <th>Category Name</th>
-                    <th>Employee Name</th>
+                    <th>Asset ID</th>
+                    <th>Purchase Date</th>
                     <th>Manufacturer</th>
                     <th>Serial Number</th>
+                    <th>Employee Name</th>
                 </tr>
             </thead>
             <tbody id="categoryTableBody">
-                <!-- Asset table data will be populated here of respective category -->
+                <!-- Asset table data will be populated dynamically via app.js -->
             </tbody>
         </table>
     </div>
@@ -28,22 +31,23 @@
     <div class="footer" id="footer"></div>
 
     <script>
-    fetch("./partials/header.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("header").innerHTML = data;
-      
-        initMobileMenu();
-      });
+        // Load Header partial
+        fetch("./partials/header.html")
+          .then(res => res.text())
+          .then(data => {
+            document.getElementById("header").innerHTML = data;
+            if (typeof initMobileMenu === 'function') initMobileMenu();
+          });
 
-    fetch("./partials/footer.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("footer").innerHTML = data;
-      });
-      </script>
+        // Load Footer partial
+        fetch("./partials/footer.html")
+          .then(res => res.text())
+          .then(data => {
+            document.getElementById("footer").innerHTML = data;
+          });
+    </script>
 
+    <!-- Centralized application logic -->
     <script src="/public/js/app.js"></script>
-    <script src="/server.js"></script>
 </body>
 </html>

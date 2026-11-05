@@ -1,10 +1,11 @@
 {
   "name": "asset_management",
   "version": "1.0.0",
-  "description": "",
+  "description": "The goal of the Asset Management System is to provide a centralized way to\r record, organize, and monitor an organization's physical assets. The system is\r intended to help administrators maintain an inventory, associate assets with\r categories and employees, and review key asset information such as\r manufacturer, serial number, and purchase date. By keeping this information in\r one place, the project aims to improve inventory visibility, accountability,\r and the efficiency of day-to-day asset administration.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -14,5 +15,13 @@
     "dotenv": "^18.0.9",
     "express": "^5.3.0",
     "pg": "^8.23.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ManishMhatre-06/Asset_Management.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ManishMhatre-06/Asset_Management/issues"
+  },
+  "homepage": "https://github.com/ManishMhatre-06/Asset_Management#readme"
 }

@@ -9,26 +9,9 @@
 <body>
     <div class="header" id="header"></div>
 
-    <!-- Flexible Grid Section -->
-    <div class="grid-container">
-      <a href="category.html" class="grid-box">
-        <div>
-            <h3>Laptop</h3>
-            <p>Total assets: 1,245</p> <!-- Dummy data, replace with actual data from the database -->
-        </div>
-      </a>
-      <a href="category.html" class="grid-box">
-        <div>
-            <h3>Printer</h3>
-            <p>Total assets: 842</p> <!-- Dummy data, replace with actual data from the database -->
-        </div>
-      </a>
-      <a href="category.html" class="grid-box">
-        <div>
-            <img src="/public/assets/icons/plus.svg" alt="Add Asset" width="50">
-            <p>Add New Asset</p>
-        </div>
-      </a>
+    <!-- Flexible Grid Section with ID for dynamic injection -->
+    <div class="grid-container" id="gridContainer">
+        <!-- Dynamic category boxes and Add Asset box will be rendered here via app.js -->
     </div>
 
     <div class="footer" id="footer"></div>
@@ -38,8 +21,7 @@
       .then(res => res.text())
       .then(data => {
         document.getElementById("header").innerHTML = data;
-      
-        initMobileMenu();
+        if (typeof initMobileMenu === 'function') initMobileMenu();
       });
 
     fetch("./partials/footer.html")
@@ -47,12 +29,8 @@
       .then(data => {
         document.getElementById("footer").innerHTML = data;
       });
-      </script>
+    </script>
 
     <script src="/public/js/app.js"></script>
-    <script src="/server.js"></script>
 </body>
 </html>
-
-
-<!-- docker run -d --name postgres-asset -e POSTGRES_PASSWORD=postgres -p 5432:5432 -v D:/MANISH/Projects/Asset_Management/database:/var/lib/postgresql/data postgres:latest -->
