@@ -21,7 +21,15 @@
       .then(res => res.text())
       .then(data => {
         document.getElementById("header").innerHTML = data;
-        if (typeof initMobileMenu === 'function') initMobileMenu();
+        
+        if (typeof initMobileMenu === 'function') {
+            initMobileMenu();
+        }
+        
+        // ---> TRIGGER DROPDOWN POPULATION HERE <---
+        if (typeof window.loadCategoryDropdown === 'function') {
+            window.loadCategoryDropdown();
+        }
       });
 
     fetch("./partials/footer.html")

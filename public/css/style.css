@@ -171,10 +171,9 @@ body {
     background-color: #555;
 }
 
-/* DASHBOARD */
-/* Flexible Grid Container */
+/* --- FIXED DASHBOARD GRID --- */
 .grid-container {
-    display: flex; /* Initially hidden, will be displayed when needed */
+    display: grid; /* Fixed from flex to grid so columns render properly */
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 20px;
     padding: 20px;
@@ -182,9 +181,10 @@ body {
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
+    text-decoration: none; /* Removes underline if wrapper is an anchor */
 }
 
-/* Consistent Box Styling */
+/* Ensure grid links don't inherit default text colors/underlines */
 .grid-box {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
@@ -193,18 +193,69 @@ body {
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    
-    /* Ensures all boxes have a consistent minimum height */
     min-height: 160px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
-/* Subtle hover effect for interactivity */
 .grid-box:hover {
     cursor: pointer;
     transform: translateY(-4px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* PLUS ICON (Add New Asset Card) */
+.grid-box img[alt="Add Asset"] {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    margin-bottom: 8px;
+}
+
+.grid-box:hover img[alt="Add Asset"] {
+    opacity: 1;
+}
+
+.grid-box p {
+    margin: 8px 0 0 0;
+    font-weight: 600;
+    color: #333;
+}
+
+
+/* --- TABLE ACTION BUTTONS (Edit & Delete) --- */
+.edit-btn,
+.delete-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 6px 8px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Edit Button Styling */
+.edit-btn:hover {
+    background-color: #e3f2fd;
+    border-color: #90caf9;
+}
+
+/* Delete Button Styling */
+.delete-btn:hover {
+    background-color: #ffebee;
+    border-color: #ef9a9a;
+}
+
+/* Button Icon Alignment */
+.edit-btn img,
+.delete-btn img {
+    display: block;
+    width: 18px;
+    height: 18px;
 }

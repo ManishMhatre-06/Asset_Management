@@ -121,24 +121,30 @@ app.get('/api/assets', isAuthenticated, async (req, res) => {
         const categoryId = req.query.categoryId;
         let query = `
             SELECT 
-                a.AssetID AS "AssetID", 
-                a.PurchaseDate AS "PurchaseDate", 
-                a.Manufacturer AS "Manufacturer",
-                a.ModelName AS "ModelName", 
-                a.SrNumber AS "SrNumber", 
-                TRIM(CONCAT(COALESCE(e.EmpfirstName, ''), ' ', COALESCE(e.Emplastname, ''))) AS "EmployeeName",
-                c.CategoryName AS "CategoryName"
-            FROM Asset a
-            LEFT JOIN Employee e ON a.EmpID = e.EmpID
-            LEFT JOIN Category c ON a.CategoryID = c.CategoryID
+                asset.assetid AS "AssetID", 
+                asset.manufacturer AS "Manufacturer", 
+                asset.modelname AS "ModelName", 
+                asset.srnumber AS "SrNumber", 
+                asset.purchasedate AS "PurchaseDate", 
+                laptop.processor AS "Processor",
+                laptop.ram AS "RAM",
+                laptop.storage AS "Storage",
+                laptop.os_version AS "OSVersion",
+                employee.empfirstname AS "EmpFirstName", 
+                employee.empdepart AS "EmpDepart",
+                category.categoryname AS "CategoryName"
+            FROM asset
+            JOIN category ON asset.categoryid = category.categoryid
+            JOIN employee ON asset.empid = employee.empid
+            LEFT JOIN laptop ON asset.assetid = laptop.assetid
         `;
 
         let queryParams = [];
         if (categoryId) {
-            query += ` WHERE a.CategoryID = $1`;
+            query += ` WHERE asset.categoryid = $1`;
             queryParams.push(categoryId);
         }
-        query += ` ORDER BY a.AssetID;`;
+        query += ` ORDER BY asset.assetid;`;
 
         const result = await pool.query(query, queryParams);
         res.json(result.rows);

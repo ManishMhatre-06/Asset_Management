@@ -2,7 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Logic for Category Asset Table (category.html)
     const tbody = document.getElementById('categoryTableBody');
     if (tbody) {
-        fetch('/api/assets')
+        // Read categoryId from URL parameters if present
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams.get('categoryId');
+
+        let fetchUrl = '/api/assets';
+        if (categoryId) {
+            fetchUrl += `?categoryId=${categoryId}`;
+        }
+
+        fetch(fetchUrl)
           .then(response => response.json())
           .then(data => {
             tbody.innerHTML = '';
@@ -23,19 +32,23 @@ document.addEventListener('DOMContentLoaded', () => {
                   <td>${asset.Manufacturer || 'N/A'}</td>
                   <td>${asset.ModelName || 'N/A'}</td>
                   <td>${asset.SrNumber || 'N/A'}</td>
-                  <td>${asset.EmployeeName || 'Unassigned'}</td>
-                  <td><button class="edit-btn" data-asset-id="${asset.AssetID}">Edit</button></td>
-                  <td><button class="delete-btn" data-asset-id="${asset.AssetID}">Delete</button></td>
+                  <td>${asset.Processor || 'N/A'}</td>
+                  <td>${asset.RAM || 'N/A'}</td>
+                  <td>${asset.Storage || 'N/A'}</td>
+                  <td>${asset.OSVersion || 'N/A'}</td>
+                  <td>${asset.EmpFirstName || 'Unassigned'} (${asset.EmpDepart || 'N/A'})</td>
+                  <td><button class="edit-btn" data-asset-id="${asset.AssetID}"><img src="/public/assets/icons/edit.svg" alt="Edit"></button></td>
+                  <td><button class="delete-btn" data-asset-id="${asset.AssetID}"><img src="/public/assets/icons/delete-bin.svg" alt="Delete"></button></td>
                 `;
                 tbody.appendChild(row);
               });
             } else {
-              tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No asset records found</td></tr>';
+              tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;">No asset records found</td></tr>';
             }
           })
           .catch(error => {
             console.error('Error loading assets:', error);
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Failed to load data from server</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; color:red;">Failed to load data from server</td></tr>';
           });
     }
 
@@ -77,4 +90,30 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error loading category summaries:', error);
           });
     }
+
+    // 3. Logic for Dynamic Category Links in Header Dropdown
+    // Expose a function to load the category dropdown dynamically
+window.loadCategoryDropdown = function() {
+    const categoryDropdown = document.getElementById('categoryDropdownContent');
+    if (!categoryDropdown) return;
+
+    fetch('/api/categories-summary')
+      .then(response => response.json())
+      .then(data => {
+        // Reset dropdown and keep the static "Add New Category" link
+        categoryDropdown.innerHTML = '<a href="#">Add New Category</a>';
+
+        // Dynamically generate category links based on database records
+        data.forEach(cat => {
+            const catLink = document.createElement('a');
+            catLink.href = `category.html?categoryId=${cat.CategoryID}`;
+            catLink.textContent = cat.CategoryName;
+            catLink.setAttribute('data-value', cat.CategoryName);
+            categoryDropdown.appendChild(catLink);
+        });
+      })
+      .catch(error => {
+        console.error('Error loading dynamic category links for header:', error);
+      });
+};
 });

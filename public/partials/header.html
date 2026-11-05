@@ -15,11 +15,8 @@
             <img src="/public/assets/icons/dropdown.svg" alt="arrow" class="arrow-icon">
             Categories
         </button>
-        <div class="dropdown-content">
-            <a href="category.html" data-value="Laptops">Laptops</a>
-            <a href="category.html" data-value="Printers">Printers</a>
-            <!-- Dynamic categories from database -->
-            <a href="#">Add Category</a>
+        <div class="dropdown-content" id="categoryDropdownContent">
+            <!-- Dynamic categories from database will be injected here -->
         </div>
     </div>
 
@@ -29,8 +26,8 @@
             User
         </button>
         <div class="dropdown-content">
-            <a href="#">Profile</a>
-            <a href="./login.html">Logout</a>
+            <a href="/views/profile.html">Profile</a>
+            <a href="/logout">Logout</a>
             <a href="#">Settings</a>
         </div>
     </div>
