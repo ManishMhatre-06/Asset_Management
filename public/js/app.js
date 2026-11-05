@@ -1,8 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Logic for Category Asset Table (category.html)
+    // 1. Dynamic Logic for Category Asset Table (category.html)
     const tbody = document.getElementById('categoryTableBody');
+    const thead = document.querySelector('table thead');
+    
     if (tbody) {
-        // Read categoryId from URL parameters if present
         const urlParams = new URLSearchParams(window.location.search);
         const categoryId = urlParams.get('categoryId');
 
@@ -15,40 +16,78 @@ document.addEventListener('DOMContentLoaded', () => {
           .then(response => response.json())
           .then(data => {
             tbody.innerHTML = '';
+            if (thead) thead.innerHTML = '';
+
             if (data.length > 0) {
               const heading = document.getElementById('categoryHeading');
               if (heading) {
-                heading.textContent = `${data[0].CategoryName || 'Asset'} Inventory`;
+                heading.textContent = `${data[0]["Category Name"] || 'Asset'} Inventory`;
               }
+
+              // Extract column keys dynamically and exclude columns you don't want to display
+              const keys = Object.keys(data[0]).filter(k => 
+                  k !== 'Category Name' && 
+                  k !== 'Category ID' && 
+                  k !== 'CategoryID' &&
+                  k !== 'Categoryid'
+              );
+
+              // Dynamically build <thead>
+              if (thead) {
+                  const headerRow = document.createElement('tr');
+                  keys.forEach(key => {
+                      const th = document.createElement('th');
+                      th.textContent = key;
+                      headerRow.appendChild(th);
+                  });
+                  // Add Action headers
+                  const thEdit = document.createElement('th');
+                  thEdit.textContent = 'Edit';
+                  headerRow.appendChild(thEdit);
+
+                  const thDelete = document.createElement('th');
+                  thDelete.textContent = 'Delete';
+                  headerRow.appendChild(thDelete);
+
+                  thead.appendChild(headerRow);
+              }
+
+              // Dynamically build <tbody> rows
               data.forEach(asset => {
                 const row = document.createElement('tr');
-                const formattedDate = asset.PurchaseDate 
-                    ? new Date(asset.PurchaseDate).toISOString().split('T')[0] 
-                    : 'N/A';
+                
+                keys.forEach(key => {
+                  const td = document.createElement('td');
+                  let val = asset[key];
 
-                row.innerHTML = `
-                  <td>${asset.AssetID}</td>
-                  <td>${formattedDate}</td>
-                  <td>${asset.Manufacturer || 'N/A'}</td>
-                  <td>${asset.ModelName || 'N/A'}</td>
-                  <td>${asset.SrNumber || 'N/A'}</td>
-                  <td>${asset.Processor || 'N/A'}</td>
-                  <td>${asset.RAM || 'N/A'}</td>
-                  <td>${asset.Storage || 'N/A'}</td>
-                  <td>${asset.OSVersion || 'N/A'}</td>
-                  <td>${asset.EmpFirstName || 'Unassigned'} (${asset.EmpDepart || 'N/A'})</td>
-                  <td><button class="edit-btn" data-asset-id="${asset.AssetID}"><img src="/public/assets/icons/edit.svg" alt="Edit"></button></td>
-                  <td><button class="delete-btn" data-asset-id="${asset.AssetID}"><img src="/public/assets/icons/delete-bin.svg" alt="Delete"></button></td>
-                `;
+                  // Format date fields nicely
+                  if (key === 'Purchase Date' && val) {
+                      val = new Date(val).toISOString().split('T')[0];
+                  }
+
+                  td.textContent = val !== null && val !== undefined ? val : 'N/A';
+                  row.appendChild(td);
+                });
+
+                // Add Edit button cell
+                const tdEdit = document.createElement('td');
+                tdEdit.innerHTML = `<button class="edit-btn" data-asset-id="${asset['Asset ID']}"><img src="/public/assets/icons/edit.svg" alt="Edit"></button>`;
+                row.appendChild(tdEdit);
+
+                // Add Delete button cell
+                const tdDelete = document.createElement('td');
+                tdDelete.innerHTML = `<button class="delete-btn" data-asset-id="${asset['Asset ID']}"><img src="/public/assets/icons/delete-bin.svg" alt="Delete"></button>`;
+                row.appendChild(tdDelete);
+
                 tbody.appendChild(row);
               });
             } else {
-              tbody.innerHTML = '<tr><td colspan="12" style="text-align:center;">No asset records found</td></tr>';
+              tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;">No asset records found for this category</td></tr>';
             }
           })
           .catch(error => {
-            console.error('Error loading assets:', error);
-            tbody.innerHTML = '<tr><td colspan="12" style="text-align:center; color:red;">Failed to load data from server</td></tr>';
+            console.error('Error loading dynamic assets:', error);
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; color:red;">Failed to load data from server</td></tr>';
           });
     }
 
@@ -58,9 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         fetch('/api/categories-summary')
           .then(response => response.json())
           .then(data => {
-            gridContainer.innerHTML = ''; // Clear hardcoded boxes
-
-            // Dynamically generate category boxes based on database records
+            gridContainer.innerHTML = '';
             data.forEach(cat => {
                 const gridBox = document.createElement('a');
                 gridBox.href = `category.html?categoryId=${cat.CategoryID}`;
@@ -74,7 +111,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 gridContainer.appendChild(gridBox);
             });
 
-            // Re-append the static "Add New Asset" card
             const addBox = document.createElement('a');
             addBox.href = 'category.html';
             addBox.className = 'grid-box';
@@ -93,27 +129,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Logic for Dynamic Category Links in Header Dropdown
     // Expose a function to load the category dropdown dynamically
-window.loadCategoryDropdown = function() {
-    const categoryDropdown = document.getElementById('categoryDropdownContent');
-    if (!categoryDropdown) return;
-
-    fetch('/api/categories-summary')
-      .then(response => response.json())
-      .then(data => {
-        // Reset dropdown and keep the static "Add New Category" link
-        categoryDropdown.innerHTML = '<a href="#">Add New Category</a>';
-
-        // Dynamically generate category links based on database records
-        data.forEach(cat => {
-            const catLink = document.createElement('a');
-            catLink.href = `category.html?categoryId=${cat.CategoryID}`;
-            catLink.textContent = cat.CategoryName;
-            catLink.setAttribute('data-value', cat.CategoryName);
-            categoryDropdown.appendChild(catLink);
-        });
-      })
-      .catch(error => {
-        console.error('Error loading dynamic category links for header:', error);
-      });
-};
+    window.loadCategoryDropdown = function() {
+        const categoryDropdown = document.getElementById('categoryDropdownContent');
+        if (!categoryDropdown) return;
+    
+        fetch('/api/categories-summary')
+          .then(response => response.json())
+          .then(data => {
+            // Reset dropdown and keep the static "Add New Category" link
+            categoryDropdown.innerHTML = '<a href="#">Add New Category</a>';
+          
+            // Dynamically generate category links based on database records
+            data.forEach(cat => {
+                const catLink = document.createElement('a');
+                catLink.href = `category.html?categoryId=${cat.CategoryID}`;
+                catLink.textContent = cat.CategoryName;
+                catLink.setAttribute('data-value', cat.CategoryName);
+                categoryDropdown.appendChild(catLink);
+            });
+          })
+          .catch(error => {
+            console.error('Error loading dynamic category links for header:', error);
+          });
+    };
 });
